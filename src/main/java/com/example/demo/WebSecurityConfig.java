@@ -1,13 +1,10 @@
 package com.example.demo;
 
-import com.example.demo.model.AppUser;
 import com.example.demo.repo.UserRepository;
 import com.example.demo.service.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.event.EventListener;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -46,17 +43,4 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
-
-
-    @EventListener(ApplicationReadyEvent.class)
-    public void addUsers() {
-        AppUser appUser = new AppUser("Jan","some@mail.com", passwordEncoder().encode("123"), "ROLE_USER");
-        userRepository.save(appUser);
-        AppUser appUser2 = new AppUser("Janusz", "some@mail.com", passwordEncoder().encode("password"), "ROLE_USER");
-        userRepository.save(appUser2);
-        AppUser appUser3 = new AppUser("Admin", "some@mail.com", passwordEncoder().encode("pass123"), "ROLE_ADMIN");
-        userRepository.save(appUser3);
-    }
-
 }
